@@ -1,0 +1,800 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Plankton</name>
+    </assembly>
+    <members>
+        <member name="T:Plankton.PlanktonFace">
+            <summary>
+            Represents a face in Plankton's halfedge mesh data structure.
+            </summary>
+        </member>
+        <member name="P:Plankton.PlanktonFace.Unset">
+            <summary>
+            Gets an unset PlanktonFace. Unset faces have -1 for their first halfedge index.
+            </summary>
+        </member>
+        <member name="P:Plankton.PlanktonFace.IsUnused">
+            <summary>
+            Whether or not the face is currently being referenced in the mesh.
+            </summary>
+        </member>
+        <member name="T:Plankton.PlanktonFaceList">
+            <summary>
+            Provides access to the faces and <see cref="T:Plankton.PlanktonFace"/> related functionality of a Mesh.
+            </summary>
+        </member>
+        <member name="M:Plankton.PlanktonFaceList.#ctor(Plankton.PlanktonMesh)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Plankton.PlanktonFaceList"/> class.
+            Should be called from the mesh constructor.
+            </summary>
+            <param name="owner">The <see cref="T:Plankton.PlanktonMesh"/> to which this list of half-edges belongs.</param>
+        </member>
+        <member name="P:Plankton.PlanktonFaceList.Count">
+            <summary>
+            Gets the number of faces.
+            </summary>
+        </member>
+        <member name="M:Plankton.PlanktonFaceList.Add(Plankton.PlanktonFace)">
+            <summary>
+            Adds a new face to the end of the Face list.
+            </summary>
+            <param name="halfEdge">Face to add.</param>
+            <returns>The index of the newly added face.</returns>
+        </member>
+        <member name="M:Plankton.PlanktonFaceList.AddFace(System.Collections.Generic.IEnumerable{System.Int32})">
+            <summary>
+            Adds a new face to the end of the Face list. Creates any halfedge pairs that are required.
+            </summary>
+            <param name="indices">The vertex indices which define the face, ordered anticlockwise.</param>
+            <returns>The index of the newly added face (-1 in the case that the face could not be added).</returns>
+            <remarks>The mesh must remain 2-manifold and orientable at all times.</remarks>
+        </member>
+        <member name="M:Plankton.PlanktonFaceList.AddFace(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Appends a new triangular face to the end of the mesh face list. Creates any halfedge pairs that are required.
+            </summary>
+            <returns>The index of the newly added face (-1 in the case that the face could not be added).</returns>
+            <param name="a">Index of first corner.</param>
+            <param name="b">Index of second corner.</param>
+            <param name="c">Index of third corner.</param>
+            <remarks>The mesh must remain 2-manifold and orientable at all times.</remarks>
+        </member>
+        <member name="M:Plankton.PlanktonFaceList.AddFace(System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Appends a new quadragular face to the end of the mesh face list. Creates any halfedge pairs that are required.
+            </summary>
+            <returns>The index of the newly added face (-1 in the case that the face could not be added).</returns>
+            <param name="a">Index of first corner.</param>
+            <param name="b">Index of second corner.</param>
+            <param name="c">Index of third corner.</param>
+            <param name="d">Index of fourth corner.</param> 
+            <remarks>The mesh must remain 2-manifold and orientable at all times.</remarks>
+        </member>
+        <member name="M:Plankton.PlanktonFaceList.AddFaces(System.Collections.Generic.IEnumerable{System.Collections.Generic.IEnumerable{System.Int32}})">
+            <summary>
+            Appends a list of faces to the end of the mesh face list.
+            </summary>
+            <param name="faces">Faces to add.</param>
+            <returns>Indices of the newly created faces.</returns>
+        </member>
+        <member name="M:Plankton.PlanktonFaceList.RemoveFace(System.Int32)">
+            <summary>
+            <para>Removes a face from the mesh without affecting the remaining geometry.</para>
+            <para>Ensures that the topology of the halfedge mesh remains fully intact.</para>
+            </summary>
+            <param name="index">The index of the face to be removed.</param>
+        </member>
+        <member name="P:Plankton.PlanktonFaceList.Item(System.Int32)">
+            <summary>
+            Returns the <see cref="T:Plankton.PlanktonFace"/> at the given index.
+            </summary>
+            <param name="index">
+            Index of face to get.
+            Must be larger than or equal to zero and smaller than the Face Count of the mesh.
+            </param>
+            <returns>The face at the given index.</returns>
+        </member>
+        <member name="M:Plankton.PlanktonFaceList.CompactHelper">
+            <summary>
+            Helper method to remove dead faces from the list, re-index and compact.
+            </summary>
+        </member>
+        <member name="M:Plankton.PlanktonFaceList.GetHalfedgesCirculator(System.Int32)">
+            <summary>
+            Traverses the halfedge indices which bound a face.
+            </summary>
+            <param name="f">A face index.</param>
+            <returns>An enumerable of halfedge indices incident to the specified face.
+            Ordered anticlockwise around the face.</returns>
+        </member>
+        <member name="M:Plankton.PlanktonFaceList.GetHalfedges(System.Int32)">
+            <summary>
+            Gets the halfedges which bound a face.
+            </summary>
+            <param name="f">A face index.</param>
+            <returns>The indices of halfedges incident to a particular face.
+            Ordered anticlockwise around the face.</returns>
+        </member>
+        <member name="M:Plankton.PlanktonFaceList.GetFaceVertices(System.Int32)">
+            <summary>
+            Gets vertex indices of a face.
+            </summary>
+            <param name="f">A face index.</param>
+            <returns>An array of vertex indices incident to the specified face.
+            Ordered anticlockwise around the face.</returns>
+        </member>
+        <member name="M:Plankton.PlanktonFaceList.SplitFace(System.Int32,System.Int32)">
+            <summary>
+            <para>Split a face into two faces by inserting a new edge</para>
+            <seealso cref="M:Plankton.PlanktonFaceList.MergeFaces(System.Int32)"/>
+            </summary>
+            <param name="to">The index of a second halfedge adjacent to the face to split.
+            The new edge will end at the start of this halfedge.</param>
+            <param name="from">The index of a halfedge adjacent to the face to split.
+            The new edge will begin at the start of this halfedge.</param>
+            <returns>The index of one of the newly created halfedges, or -1 on failure.
+            The returned halfedge will be adjacent to the pre-existing face.</returns>
+        </member>
+        <member name="M:Plankton.PlanktonFaceList.MergeFaces(System.Int32)">
+            <summary>
+            <para>Merges the two faces incident to the specified halfedge pair.</para>
+            <seealso cref="M:Plankton.PlanktonFaceList.SplitFace(System.Int32,System.Int32)"/>
+            </summary>
+            <param name="index">The index of a halfedge inbetween the two faces to merge.
+            The face adjacent to this halfedge will be retained.</param>        
+            <returns>The successor of <paramref name="index"/> around the face, or -1 on failure.</returns>
+            <remarks>
+            The invariant <c>mesh.Faces.MergeFaces(mesh.Faces.SplitFace(a, b))</c> will return a,
+            leaving the mesh unchanged.</remarks>
+        </member>
+        <member name="M:Plankton.PlanktonFaceList.Stellate(System.Int32)">
+            <summary>
+            Divides an n-sided face into n triangles, adding a new vertex in the center of the face.
+            </summary>
+            <param name="index">The index of the face to stellate</param>        
+            <returns>The index of the central vertex</returns>
+        </member>
+        <member name="M:Plankton.PlanktonFaceList.GetFaceCenter(System.Int32)">
+            <summary>
+            Gets the barycenter of a face's vertices.
+            </summary>
+            <param name="f">A face index.</param>
+            <returns>The location of the specified face's barycenter.</returns>
+        </member>
+        <member name="M:Plankton.PlanktonFaceList.NakedEdgeCount(System.Int32)">
+            <summary>
+            Gets the number of naked edges which bound this face.
+            </summary>
+            <param name="f">A face index.</param>
+            <returns>The number of halfedges for which the opposite halfedge has no face (i.e. adjacent face index is -1).</returns>
+        </member>
+        <member name="M:Plankton.PlanktonFaceList.GetEnumerator">
+            <summary>
+            Gets an enumerator that yields all faces in this collection.
+            </summary>
+            <returns>An enumerator.</returns>
+        </member>
+        <member name="T:Plankton.PlanktonHalfedge">
+            <summary>
+            Represents a halfedge in Plankton's halfedge mesh data structure.
+            </summary>
+        </member>
+        <member name="P:Plankton.PlanktonHalfedge.Unset">
+            <summary>
+            Gets an Unset PlanktonHalfedge.
+            </summary>
+        </member>
+        <member name="P:Plankton.PlanktonHalfedge.IsUnused">
+            <summary>
+            <para>Whether or not the vertex is currently being referenced in the mesh.</para>
+            <para>Defined as a halfedge which has no starting vertex index.</para>
+            </summary>
+        </member>
+        <member name="T:Plankton.PlanktonHalfEdgeList">
+            <summary>
+            Provides access to the halfedges and <see cref="T:Plankton.PlanktonHalfedge"/> related functionality of a Mesh.
+            </summary>
+        </member>
+        <member name="M:Plankton.PlanktonHalfEdgeList.#ctor(Plankton.PlanktonMesh)">
+            <summary>
+            Initializes a new instance of the <see cref="!:PlanktonHalfedgeList"/> class.
+            Should be called from the mesh constructor.
+            </summary>
+            <param name="owner">The <see cref="T:Plankton.PlanktonMesh"/> to which this list of halfedges belongs.</param>
+        </member>
+        <member name="P:Plankton.PlanktonHalfEdgeList.Count">
+            <summary>
+            Gets the number of halfedges.
+            </summary>
+        </member>
+        <member name="M:Plankton.PlanktonHalfEdgeList.Add(Plankton.PlanktonHalfedge)">
+            <summary>
+            Adds a new halfedge to the end of the Halfedge list.
+            </summary>
+            <param name="halfEdge">Halfedge to add.</param>
+            <returns>The index of the newly added halfedge.</returns>
+        </member>
+        <member name="M:Plankton.PlanktonHalfEdgeList.AddPair(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Add a pair of halfedges to the mesh.
+            </summary>
+            <param name="start">A vertex index (from which the first halfedge originates).</param>
+            <param name="end">A vertex index (from which the second halfedge originates).</param>
+            <param name="face">A face index (adjacent to the first halfedge).</param>
+            <returns>The index of the first halfedge in the pair.</returns>
+        </member>
+        <member name="M:Plankton.PlanktonHalfEdgeList.RemovePairHelper(System.Int32)">
+            <summary>
+            Removes a pair of halfedges from the mesh.
+            </summary>
+            <param name="index">The index of a halfedge in the pair to remove.</param>
+            <remarks>The halfedges are topologically disconnected from the mesh and marked for deletion.
+            Note that this helper method doesn't update adjacent faces.</remarks>
+        </member>
+        <member name="P:Plankton.PlanktonHalfEdgeList.Item(System.Int32)">
+            <summary>
+            Returns the <see cref="T:Plankton.PlanktonHalfedge"/> at the given index.
+            </summary>
+            <param name="index">
+            Index of halfedge to get.
+            Must be larger than or equal to zero and smaller than the Halfedge Count of the mesh.
+            </param>
+            <returns>The halfedge at the given index.</returns>
+        </member>
+        <member name="M:Plankton.PlanktonHalfEdgeList.CompactHelper">
+            <summary>
+            Helper method to remove dead halfedges from the list, re-index and compact.
+            </summary>
+        </member>
+        <member name="M:Plankton.PlanktonHalfEdgeList.GetVertexCirculator(System.Int32)">
+            <summary>
+            Traverses clockwise around the starting vertex of a halfedge.
+            </summary>
+            <param name="halfedgeIndex">The index of a halfedge.</param>
+            <returns>
+            An enumerable of halfedge indices incident to the starting vertex of
+            <paramref name="halfedgeIndex"/>. Ordered clockwise around the vertex.
+            The returned enumerable will start with the specified halfedge.
+            </returns>
+            <remarks>Lazily evaluated so if you change the mesh topology whilst using
+            this circulator, you'll know about it!</remarks>
+        </member>
+        <member name="M:Plankton.PlanktonHalfEdgeList.GetFaceCirculator(System.Int32)">
+            <summary>
+            Traverses anticlockwise around the adjacent face of a halfedge.
+            </summary>
+            <param name="halfedgeIndex">The index of a halfedge.</param>
+            <returns>
+            An enumerable of halfedge indices incident to the adjacent face of
+            <paramref name="halfedgeIndex"/>. Ordered anticlockwise around the face.
+            </returns>
+            <remarks>Lazily evaluated so if you change the mesh topology whilst using
+            this circulator, you'll know about it!</remarks>
+        </member>
+        <member name="M:Plankton.PlanktonHalfEdgeList.FindHalfedge(System.Int32,System.Int32)">
+            <summary>
+            Gets the halfedge index between two vertices.
+            </summary>
+            <param name="start">A vertex index.</param>
+            <param name="end">A vertex index.</param>
+            <returns>If it exists, the index of the halfedge which originates
+            from <paramref name="start"/> and terminates at <paramref name="end"/>.
+            Otherwise -1 is returned.</returns>
+        </member>
+        <member name="M:Plankton.PlanktonHalfEdgeList.GetPairHalfedge(System.Int32)">
+            <summary>
+            Gets the opposing halfedge in a pair.
+            </summary>
+            <param name="index">A halfedge index.</param>
+            <returns>The halfedge index with which the specified halfedge is paired.</returns>
+        </member>
+        <member name="M:Plankton.PlanktonHalfEdgeList.GetVertices(System.Int32)">
+            <summary>
+            Gets the two vertices for a halfedge.
+            </summary>
+            <param name="index">A halfedge index.</param>
+            <returns>The pair of vertex indices connected by the specified halfedge.
+            The order follows the direction of the halfedge.</returns>
+        </member>
+        <member name="M:Plankton.PlanktonHalfEdgeList.GetNextHalfEdge(System.Int32,System.Int32)">
+            <summary>
+            Gets the halfedge a given number of 'next's around a face from a starting halfedge
+            </summary>        
+            <param name="startHalfEdge">The halfedge to start from</param>
+            <param name="around">How many steps around the face. 0 returns the start_he</param>
+            <returns>The resulting halfedge</returns>
+        </member>
+        <member name="M:Plankton.PlanktonHalfEdgeList.IsBoundary(System.Int32)">
+            <summary>
+            A halfedge is on a boundary if it only has a face on one side.
+            </summary>
+            <param name="index">The index of a halfedge.</param>
+            <returns><c>true</c> if the specified halfedge is on a boundary; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:Plankton.PlanktonHalfEdgeList.EndVertex(System.Int32)">
+            <summary>
+            Gets the index of the vertex at the <b>end</b> of a halfedge.
+            </summary>
+            <param name="index">The index of a halfedge.</param>
+            <returns>The index of vertex at the end of the specified halfedge.</returns>
+            <remarks>This helper actually returns the start vertex of the other halfedge in the pair.</remarks>
+        </member>
+        <member name="M:Plankton.PlanktonHalfEdgeList.FlipEdge(System.Int32)">
+            <summary>
+            Performs an edge flip. This works by shifting the start/end vertices of the edge
+            anticlockwise around their faces (by one vertex) and as such can be applied to any
+            n-gon mesh, not just triangulations.
+            </summary>
+            <param name="index">The index of a halfedge in the edge to be flipped.</param>
+            <returns>True on success, otherwise false.</returns>
+        </member>
+        <member name="M:Plankton.PlanktonHalfEdgeList.SplitEdge(System.Int32)">
+            <summary>
+            Creates a new vertex, and inserts it along an existing edge, splitting it in 2.
+            </summary>
+            <param name="index">The index of a halfedge in the edge to be split.</param>
+            <returns>The index of the newly created halfedge in the same direction as the input halfedge.</returns>
+        </member>
+        <member name="M:Plankton.PlanktonHalfEdgeList.TriangleSplitEdge(System.Int32)">
+            <summary>
+            Split 2 adjacent triangles into 4 by inserting a new vertex along the edge
+            </summary>
+            <param name="index">The index of the halfedge to split. Must be between 2 triangles.</param>        
+            <returns>The index of the halfedge going from the new vertex to the end of the input halfedge, or -1 on failure</returns>
+        </member>
+        <member name="M:Plankton.PlanktonHalfEdgeList.CollapseEdge(System.Int32)">
+            <summary>
+            Collapse an edge by combining 2 vertices
+            </summary>
+            <param name="index">The index of a halfedge in the edge to collapse. The end vertex will be removed</param>        
+            <returns>The successor to <paramref name="index"/> around its vertex, or -1 on failure.</returns>
+        </member>
+        <member name="M:Plankton.PlanktonHalfEdgeList.GetEnumerator">
+            <summary>
+            Gets an enumerator that yields all halfedges in this collection.
+            </summary>
+            <returns>An enumerator.</returns>
+        </member>
+        <member name="T:Plankton.PlanktonMesh">
+            <summary>
+            This is the main class that describes a plankton mesh.
+            </summary>
+        </member>
+        <member name="M:Plankton.PlanktonMesh.#ctor">
+            <summary>
+            Initializes a new (empty) instance of the <see cref="T:Plankton.PlanktonMesh"/> class.
+            </summary>
+        </member>
+        <member name="M:Plankton.PlanktonMesh.#ctor(Plankton.PlanktonMesh)">
+            <summary>
+            Initializes a new (duplicate) instance of the <see cref="T:Plankton.PlanktonMesh"/> class.
+            </summary>
+        </member>
+        <member name="P:Plankton.PlanktonMesh.Vertices">
+            <summary>
+            Gets access to the <see cref="T:Plankton.PlanktonVertexList"/> collection in this mesh.
+            </summary>
+        </member>
+        <member name="P:Plankton.PlanktonMesh.Halfedges">
+            <summary>
+            Gets access to the <see cref="!:PlanktonHalfedgeList"/> collection in this mesh.
+            </summary>
+        </member>
+        <member name="P:Plankton.PlanktonMesh.Faces">
+            <summary>
+            Gets access to the <see cref="T:Plankton.PlanktonFaceList"/> collection in this mesh.
+            </summary>
+        </member>
+        <member name="M:Plankton.PlanktonMesh.Volume">
+            <summary>
+            Calculate the volume of the mesh
+            </summary>
+        </member>
+        <member name="M:Plankton.PlanktonMesh.TruncateVertices(System.Single)">
+            <summary>
+            Truncates the vertices of a mesh.
+            </summary>
+            <param name="t">Optional parameter for the normalised distance along each edge to control the amount of truncation.</param>
+            <returns>A new mesh, the result of the truncation.</returns>
+        </member>
+        <member name="M:Plankton.PlanktonMesh.Compact">
+            <summary>
+            Removes any unreferenced objects from arrays, reindexes as needed and shrinks arrays to minimum required size.
+            </summary>
+            <exception cref="T:System.InvalidOperationException">Thrown if halfedge count is odd after compaction.
+            Most likely caused by only marking one of the halfedges in a pair for deletion.</exception>
+        </member>
+        <member name="T:Plankton.PlanktonVertex">
+            <summary>
+            Represents a vertex in Plankton's halfedge mesh data structure.
+            </summary>
+        </member>
+        <member name="P:Plankton.PlanktonVertex.Unset">
+            <summary>
+            Gets an unset PlanktonVertex. Unset vertices have an outgoing halfedge index of -1.
+            </summary>
+        </member>
+        <member name="P:Plankton.PlanktonVertex.IsUnused">
+            <summary>
+            Whether or not the vertex is currently being referenced in the mesh.
+            </summary>
+        </member>
+        <member name="T:Plankton.PlanktonVertexList">
+            <summary>
+            Provides access to the vertices and <see cref="T:Plankton.PlanktonVertex"/> related functionality of a Mesh.
+            </summary>
+        </member>
+        <member name="M:Plankton.PlanktonVertexList.#ctor(Plankton.PlanktonMesh)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Plankton.PlanktonVertexList"/> class.
+            Should be called from the mesh constructor.
+            </summary>
+            <param name="owner">The <see cref="T:Plankton.PlanktonMesh"/> to which this list of vertices belongs.</param>
+        </member>
+        <member name="P:Plankton.PlanktonVertexList.Count">
+            <summary>
+            Gets the number of vertices.
+            </summary>
+        </member>
+        <member name="M:Plankton.PlanktonVertexList.Add(Plankton.PlanktonVertex)">
+            <summary>
+            Adds a new vertex to the end of the Vertex list.
+            </summary>
+            <param name="vertex">Vertex to add.</param>
+            <returns>The index of the newly added vertex.</returns>
+        </member>
+        <member name="M:Plankton.PlanktonVertexList.Add(Plankton.PlanktonXYZ)">
+            <summary>
+            Adds a new vertex to the end of the Vertex list.
+            </summary>
+            <param name="vertex">Vertex to add.</param>
+            <returns>The index of the newly added vertex.</returns>
+        </member>
+        <member name="M:Plankton.PlanktonVertexList.Add(System.Double,System.Double,System.Double)">
+            <summary>
+            Adds a new vertex to the end of the Vertex list.
+            </summary>
+            <param name="x">X component of new vertex coordinate.</param>
+            <param name="y">Y component of new vertex coordinate.</param>
+            <param name="z">Z component of new vertex coordinate.</param>
+            <returns>The index of the newly added vertex.</returns>
+        </member>
+        <member name="M:Plankton.PlanktonVertexList.Add(System.Single,System.Single,System.Single)">
+            <summary>
+            Adds a new vertex to the end of the Vertex list.
+            </summary>
+            <param name="x">X component of new vertex coordinate.</param>
+            <param name="y">Y component of new vertex coordinate.</param>
+            <param name="z">Z component of new vertex coordinate.</param>
+            <returns>The index of the newly added vertex.</returns>
+        </member>
+        <member name="M:Plankton.PlanktonVertexList.AddVertices(System.Collections.Generic.IEnumerable{Plankton.PlanktonXYZ})">
+            <summary>
+            Adds a series of new vertices to the end of the vertex list.
+            </summary>
+            <param name="vertices">A list, an array or any enumerable set of <see cref="T:Plankton.PlanktonXYZ"/>.</param>
+            <returns>Indices of the newly created vertices.</returns>
+        </member>
+        <member name="P:Plankton.PlanktonVertexList.Item(System.Int32)">
+            <summary>
+            Returns the <see cref="T:Plankton.PlanktonVertex"/> at the given index.
+            </summary>
+            <param name="index">
+            Index of vertex to get.
+            Must be larger than or equal to zero and smaller than the Vertex Count of the mesh.
+            </param>
+            <returns>The vertex at the given index.</returns>
+        </member>
+        <member name="M:Plankton.PlanktonVertexList.SetVertex(System.Int32,System.Single,System.Single,System.Single)">
+            <summary>
+            <para>Sets or adds a vertex to the Vertex List.</para>
+            <para>If [index] is less than [Count], the existing vertex at [index] will be modified.</para>
+            <para>If [index] equals [Count], a new vertex is appended to the end of the vertex list.</para>
+            <para>If [index] is larger than [Count], the function will return false.</para>
+            </summary>
+            <param name="vertexIndex">Index of vertex to set.</param>
+            <param name="x">X component of vertex location.</param>
+            <param name="y">Y component of vertex location.</param>
+            <param name="z">Z component of vertex location.</param>
+            <returns><c>true</c> on success, <c>false</c> on failure.</returns>
+        </member>
+        <member name="M:Plankton.PlanktonVertexList.SetVertex(System.Int32,System.Double,System.Double,System.Double)">
+            <summary>
+            <para>Sets or adds a vertex to the Vertex List.</para>
+            <para>If [index] is less than [Count], the existing vertex at [index] will be modified.</para>
+            <para>If [index] equals [Count], a new vertex is appended to the end of the vertex list.</para>
+            <para>If [index] is larger than [Count], the function will return false.</para>
+            </summary>
+            <param name="vertexIndex">Index of vertex to set.</param>
+            <param name="x">X component of vertex location.</param>
+            <param name="y">Y component of vertex location.</param>
+            <param name="z">Z component of vertex location.</param>
+            <returns><c>true</c> on success, <c>false</c> on failure.</returns>
+        </member>
+        <member name="M:Plankton.PlanktonVertexList.CompactHelper">
+            <summary>
+            Helper method to remove dead vertices from the list, re-index and compact.
+            </summary>
+        </member>
+        <member name="M:Plankton.PlanktonVertexList.CullUnused">
+            <summary>
+            Removes all vertices that are currently not used by the Halfedge list.
+            </summary>
+            <returns>The number of unused vertices that were removed.</returns>
+        </member>
+        <member name="M:Plankton.PlanktonVertexList.GetHalfedgesCirculator(System.Int32)">
+            <summary>
+            Traverses the halfedge indices which originate from a vertex.
+            </summary>
+            <param name="v">A vertex index.</param>
+            <returns>An enumerable of halfedge indices incident to the specified vertex.
+            Ordered clockwise around the vertex.</returns>
+        </member>
+        <member name="M:Plankton.PlanktonVertexList.GetHalfedgesCirculator(System.Int32,System.Int32)">
+            <summary>
+            Traverses the halfedge indices which originate from a vertex.
+            </summary>
+            <param name="v">A vertex index.</param>
+            <param name="first">A halfedge index. Halfedge must start at the specified vertex.</param>
+            <returns>An enumerable of halfedge indices incident to the specified vertex.
+            Ordered clockwise around the vertex.
+            The returned enumerable will start with the specified halfedge.</returns>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            The specified halfedge does not originate from the specified vertex.
+            </exception>
+        </member>
+        <member name="M:Plankton.PlanktonVertexList.GetHalfedges(System.Int32)">
+            <summary>
+            Gets the halfedges which originate from a vertex.
+            </summary>
+            <param name="v">A vertex index.</param>
+            <returns>The indices of halfedges incident to a particular vertex.
+            Ordered clockwise around the vertex.</returns>
+        </member>
+        <member name="M:Plankton.PlanktonVertexList.GetIncomingHalfedges(System.Int32)">
+            <summary>
+            Gets the halfedges which end at a vertex.
+            </summary>
+            <param name="v">A vertex index.</param>
+            <returns>The opposing halfedge for each returned by <see cref="M:Plankton.PlanktonVertexList.GetHalfedges(System.Int32)"/>.
+            Ordered clockwise around the vertex.</returns>
+        </member>
+        <member name="M:Plankton.PlanktonVertexList.GetVertexNeighbours(System.Int32)">
+            <summary>
+            Gets vertex neighbours (a.k.a. 1-ring).
+            </summary>
+            <param name="f">A vertex index.</param>
+            <returns>An array of vertex indices incident to the specified vertex.
+            Ordered clockwise around the vertex.</returns>
+        </member>
+        <member name="M:Plankton.PlanktonVertexList.GetVertexFaces(System.Int32)">
+            <summary>
+            Gets faces incident to a vertex.
+            </summary>
+            <param name="v">A vertex index.</param>
+            <returns>An array of face indices incident to the specified vertex.
+            Ordered clockwise around the vertex</returns>
+        </member>
+        <member name="M:Plankton.PlanktonVertexList.GetIncomingHalfedge(System.Int32)">
+            <summary>
+            Gets the first <b>incoming</b> halfedge for a vertex.
+            </summary>
+            <param name="v">A vertex index.</param>
+            <returns>The index of the halfedge paired with the specified vertex's .</returns>
+        </member>
+        <member name="M:Plankton.PlanktonVertexList.NakedEdgeCount(System.Int32)">
+            <summary>
+            Gets the number of naked edges incident to this vertex.
+            </summary>
+            <param name="v">A vertex index.</param>
+            <returns>The number of incident halfedges which lie on a boundary.</returns>
+        </member>
+        <member name="M:Plankton.PlanktonVertexList.GetValence(System.Int32)">
+            <summary>
+            Gets the number of edges incident to this vertex.
+            </summary>
+            <param name="v">A vertex index.</param>
+            <returns>The number of incident edges.</returns>
+        </member>
+        <member name="M:Plankton.PlanktonVertexList.IsBoundary(System.Int32)">
+            <summary>
+            A vertex is on a boundary if its outgoing halfedge has no adjacent face.
+            </summary>
+            <param name="index">The index of a vertex.</param>
+            <returns><c>true</c> if the specified vertex is on a boundary; otherwise, <c>false</c>.
+            Also returns <c>true</c> if the vertex is unused (i.e. no outgoing halfedge).</returns>
+        </member>
+        <member name="M:Plankton.PlanktonVertexList.GetNormal(System.Int32)">
+            <summary>
+            Gets the normal vector at a vertex.
+            </summary>
+            <param name="index">The index of a vertex.</param>
+            <returns>The area weighted vertex normal.</returns>
+        </member>
+        <member name="M:Plankton.PlanktonVertexList.GetNormals">
+            <summary>
+            Gets the normal vectors for all vertices in the mesh.
+            </summary>
+            <returns>The area weighted vertex normals of all vertices in the mesh.</returns>
+            <remarks>
+            This will be accurate at the time of calling but will quickly
+            become outdated if you start fiddling with the mesh.
+            </remarks>
+        </member>
+        <member name="M:Plankton.PlanktonVertexList.GetPositions">
+            <summary>
+            Gets the positions of all vertices.
+            </summary>
+            <returns>The positions of all vertices in the mesh.</returns>
+        </member>
+        <member name="M:Plankton.PlanktonVertexList.MergeVertices(System.Int32)">
+            <summary>
+            <para>Merges two vertices by collapsing the pair of halfedges between them.</para>
+            <seealso cref="!:PlanktonHalfedgeList.CollapseEdge"/>
+            </summary>
+            <param name="halfedge">The index of a halfedge between the two vertices to be merged.
+            The starting vertex of this halfedge will be retained.</param>
+            <returns>The successor of <paramref name="index"/> around its vertex, or -1 on failure.</returns>
+            <remarks>The invariant <c>mesh.Vertices.MergeVertices(mesh.Vertices.SplitVertex(a, b))</c> will return a,
+            leaving the mesh unchanged.</remarks>
+        </member>
+        <member name="M:Plankton.PlanktonVertexList.SplitVertex(System.Int32,System.Int32)">
+            <summary>
+            Splits the vertex into two, joined by a new pair of halfedges.
+            </summary>
+            <param name="first">The index of a halfedge which starts at the vertex to split.</param>
+            <param name="second">The index of a second halfedge which starts at the vertex to split.</param>
+            <returns>The new halfedge which starts at the existing vertex.</returns>
+            <remarks>After the split, the <paramref name="second"/> halfedge will be starting at the newly added vertex.</remarks>
+        </member>
+        <member name="M:Plankton.PlanktonVertexList.EraseCenterVertex(System.Int32)">
+            <summary>
+            Erases a vertex and all incident halfedges by merging its incident faces.
+            </summary>
+            <param name="halfedgeIndex">The index of a halfedge which starts at the vertex to erase.
+            The retained face will be the one adjacent to this halfedge.</param>
+            <returns>The successor of <paramref name="halfedgeIndex"/> around its original face.</returns>
+        </member>
+        <member name="M:Plankton.PlanktonVertexList.TruncateVertex(System.Int32)">
+            <summary>
+            Truncates a vertex by creating a face with vertices on each of the outgoing halfedges.
+            </summary>
+            <param name="v">The index of a vertex.</param>
+            <returns>The index of the newly created face.</returns>
+        </member>
+        <member name="M:Plankton.PlanktonVertexList.GetEnumerator">
+            <summary>
+            Gets an enumerator that yields all faces in this collection.
+            </summary>
+            <returns>An enumerator.</returns>
+        </member>
+        <member name="T:Plankton.PlanktonXYZ">
+            <summary>
+            Represents a vector in Euclidean space.
+            </summary>
+        </member>
+        <member name="M:Plankton.PlanktonXYZ.#ctor(System.Single,System.Single,System.Single)">
+            <summary>
+            Constructs a new vector from 3 single precision numbers.
+            </summary>
+            <param name="x">X component of vector.</param>
+            <param name="y">Y component of vector.</param>
+            <param name="z">Z component of vector.</param>
+        </member>
+        <member name="P:Plankton.PlanktonXYZ.Zero">
+            <summary>
+            Gets the value of the vector with components 0,0,0.
+            </summary>
+        </member>
+        <member name="P:Plankton.PlanktonXYZ.XAxis">
+            <summary>
+            Gets the value of the vector with components 1,0,0.
+            </summary>
+        </member>
+        <member name="P:Plankton.PlanktonXYZ.YAxis">
+            <summary>
+            Gets the value of the vector with components 0,1,0.
+            </summary>
+        </member>
+        <member name="P:Plankton.PlanktonXYZ.ZAxis">
+            <summary>
+            Gets the value of the vector with components 0,0,1.
+            </summary>
+        </member>
+        <member name="P:Plankton.PlanktonXYZ.X">
+            <summary>
+            Gets or sets the X (first) component of this vector.
+            </summary>
+        </member>
+        <member name="P:Plankton.PlanktonXYZ.Y">
+            <summary>
+            Gets or sets the Y (second) component of this vector.
+            </summary>
+        </member>
+        <member name="P:Plankton.PlanktonXYZ.Z">
+            <summary>
+            Gets or sets the Z (third) component of this vector.
+            </summary>
+        </member>
+        <member name="M:Plankton.PlanktonXYZ.GetHashCode">
+            <summary>
+            Computes a hash number that represents the current vector.
+            </summary>
+            <returns>A hash code that is not unique for each vector.</returns>
+        </member>
+        <member name="M:Plankton.PlanktonXYZ.op_Addition(Plankton.PlanktonXYZ,Plankton.PlanktonXYZ)">
+            <summary>
+            Sums up two vectors.
+            </summary>
+            <param name="v1">A vector.</param>
+            <param name="v2">A second vector.</param>
+            <returns>A new vector that results from the componentwise addition of the two vectors.</returns>
+        </member>
+        <member name="M:Plankton.PlanktonXYZ.op_Subtraction(Plankton.PlanktonXYZ,Plankton.PlanktonXYZ)">
+            <summary>
+            Subtracts one vector from another.
+            </summary>
+            <param name="v1">A vector.</param>
+            <param name="v2">A second vector.</param>
+            <returns>The first vector minus the second vector</returns>
+        </member>
+        <member name="M:Plankton.PlanktonXYZ.op_Multiply(Plankton.PlanktonXYZ,System.Single)">
+            <summary>
+            Multiplies a vector by a number, having the effect of scaling it.
+            </summary>
+            <param name="vector">A vector.</param>
+            <param name="t">A number.</param>
+            <returns>A new vector that is the original vector coordinatewise multiplied by t.</returns>
+        </member>
+        <member name="M:Plankton.PlanktonXYZ.CrossProduct(Plankton.PlanktonXYZ,Plankton.PlanktonXYZ)">
+            <summary>
+            Computes the cross product (or vector product, or exterior product) of two vectors.
+            <para>This operation is not commutative.</para>
+            </summary>
+            <param name="a">First vector.</param>
+            <param name="b">Second vector.</param>
+            <returns>A new vector that is perpendicular to both a and b,
+            <para>has Length == a.Length * b.Length and</para>
+            <para>with a result that is oriented following the right hand rule.</para>
+            </returns>
+        </member>
+        <member name="P:Plankton.PlanktonXYZ.Length">
+            <summary>
+            Get the length of a vector
+            </summary>        
+            <returns>The length</returns>
+        </member>
+        <member name="M:Plankton.PlanktonXYZ.op_Equality(Plankton.PlanktonXYZ,Plankton.PlanktonXYZ)">
+            <summary>
+            Determines whether two vectors have equal values.
+            </summary>
+            <param name="a">The first vector.</param>
+            <param name="b">The second vector.</param>
+            <returns>true if the components of the two vectors are exactly equal; otherwise false.</returns>
+        </member>
+        <member name="M:Plankton.PlanktonXYZ.op_Inequality(Plankton.PlanktonXYZ,Plankton.PlanktonXYZ)">
+            <summary>
+            Determines whether two vectors have different values.
+            </summary>
+            <param name="a">The first vector.</param>
+            <param name="b">The second vector.</param>
+            <returns>true if the two vectors differ in any component; false otherwise.</returns>
+        </member>
+        <member name="M:Plankton.PlanktonXYZ.Equals(System.Object)">
+            <summary>
+            Determines whether the specified System.Object is a Vector3f and has the same values as the present vector.
+            </summary>
+            <param name="obj">The specified object.</param>
+            <returns>true if obj is Vector3f and has the same components as this; otherwise false.</returns>
+        </member>
+        <member name="M:Plankton.PlanktonXYZ.Equals(Plankton.PlanktonXYZ)">
+            <summary>
+            Determines whether the specified vector has the same values as the present vector.
+            </summary>
+            <param name="vector">The specified vector.</param>
+            <returns>true if vector has the same components as this; otherwise false.</returns>
+        </member>
+    </members>
+</doc>

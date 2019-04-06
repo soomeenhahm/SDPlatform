@@ -1,0 +1,8 @@
+C:\Users\user\Desktop\SDPlatform_sa00\SDPlatform_sa00\bin\SDPlatform_sa00.dll
+C:\Users\user\Desktop\SDPlatform_sa00\SDPlatform_sa00\bin\SDPlatform_sa00.pdb
+C:\Users\user\Desktop\SDPlatform_sa00\SDPlatform_sa00\obj\Debug\SDPlatform_sa00.csprojAssemblyReference.cache
+C:\Users\user\Desktop\SDPlatform_sa00\SDPlatform_sa00\obj\Debug\SDPlatform_sa00.Properties.Resources.resources
+C:\Users\user\Desktop\SDPlatform_sa00\SDPlatform_sa00\obj\Debug\SDPlatform_sa00.csproj.GenerateResource.cache
+C:\Users\user\Desktop\SDPlatform_sa00\SDPlatform_sa00\obj\Debug\SDPlatform_sa00.csproj.CoreCompileInputs.cache
+C:\Users\user\Desktop\SDPlatform_sa00\SDPlatform_sa00\obj\Debug\SDPlatform_sa00.dll
+C:\Users\user\Desktop\SDPlatform_sa00\SDPlatform_sa00\obj\Debug\SDPlatform_sa00.pdb

@@ -1,0 +1,276 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>PlanktonGh</name>
+    </assembly>
+    <members>
+        <member name="M:PlanktonGh.DecomposePlankton.#ctor">
+            <summary>
+            Initializes a new instance of the DecomposePlankton class.
+            </summary>
+        </member>
+        <member name="M:PlanktonGh.DecomposePlankton.RegisterInputParams(Grasshopper.Kernel.GH_Component.GH_InputParamManager)">
+            <summary>
+            Registers all the input parameters for this component.
+            </summary>
+        </member>
+        <member name="M:PlanktonGh.DecomposePlankton.RegisterOutputParams(Grasshopper.Kernel.GH_Component.GH_OutputParamManager)">
+            <summary>
+            Registers all the output parameters for this component.
+            </summary>
+        </member>
+        <member name="M:PlanktonGh.DecomposePlankton.SolveInstance(Grasshopper.Kernel.IGH_DataAccess)">
+            <summary>
+            This is the method that actually does the work.
+            </summary>
+            <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
+        </member>
+        <member name="P:PlanktonGh.DecomposePlankton.Icon">
+            <summary>
+            Provides an Icon for the component.
+            </summary>
+        </member>
+        <member name="P:PlanktonGh.DecomposePlankton.ComponentGuid">
+            <summary>
+            Gets the unique ID for this component. Do not change this ID after release.
+            </summary>
+        </member>
+        <member name="M:PlanktonGh.GHMeshToPMesh.#ctor">
+            <summary>
+            Each implementation of GH_Component must provide a public 
+            constructor without any arguments.
+            Category represents the Tab in which the component will appear, 
+            Subcategory the panel. If you use non-existing tab or panel names, 
+            new tabs/panels will automatically be created.
+            </summary>
+        </member>
+        <member name="M:PlanktonGh.GHMeshToPMesh.RegisterInputParams(Grasshopper.Kernel.GH_Component.GH_InputParamManager)">
+            <summary>
+            Registers all the input parameters for this component.
+            </summary>
+        </member>
+        <member name="M:PlanktonGh.GHMeshToPMesh.RegisterOutputParams(Grasshopper.Kernel.GH_Component.GH_OutputParamManager)">
+            <summary>
+            Registers all the output parameters for this component.
+            </summary>
+        </member>
+        <member name="M:PlanktonGh.GHMeshToPMesh.SolveInstance(Grasshopper.Kernel.IGH_DataAccess)">
+            <summary>
+            This is the method that actually does the work.
+            </summary>
+            <param name="DA">The DA object can be used to retrieve data from input parameters and 
+            to store data in output parameters.</param>
+        </member>
+        <member name="P:PlanktonGh.GHMeshToPMesh.Icon">
+            <summary>
+            Provides an Icon for every component that will be visible in the User Interface.
+            Icons need to be 24x24 pixels.
+            </summary>
+        </member>
+        <member name="P:PlanktonGh.GHMeshToPMesh.ComponentGuid">
+            <summary>
+            Each component must have a unique Guid to identify it. 
+            It is vital this Guid doesn't change otherwise old ghx files 
+            that use the old ID will partially fail during loading.
+            </summary>
+        </member>
+        <member name="M:PlanktonGh.PMeshFromPoints.#ctor">
+            <summary>
+            Each implementation of GH_Component must provide a public 
+            constructor without any arguments.
+            Category represents the Tab in which the component will appear, 
+            Subcategory the panel. If you use non-existing tab or panel names, 
+            new tabs/panels will automatically be created.
+            </summary>
+        </member>
+        <member name="M:PlanktonGh.PMeshFromPoints.RegisterInputParams(Grasshopper.Kernel.GH_Component.GH_InputParamManager)">
+            <summary>
+            Registers all the input parameters for this component.
+            </summary>
+        </member>
+        <member name="M:PlanktonGh.PMeshFromPoints.RegisterOutputParams(Grasshopper.Kernel.GH_Component.GH_OutputParamManager)">
+            <summary>
+            Registers all the output parameters for this component.
+            </summary>
+        </member>
+        <member name="M:PlanktonGh.PMeshFromPoints.SolveInstance(Grasshopper.Kernel.IGH_DataAccess)">
+            <summary>
+            This is the method that actually does the work.
+            </summary>
+            <param name="DA">The DA object can be used to retrieve data from input parameters and 
+            to store data in output parameters.</param>
+        </member>
+        <member name="P:PlanktonGh.PMeshFromPoints.Icon">
+            <summary>
+            Provides an Icon for every component that will be visible in the User Interface.
+            Icons need to be 24x24 pixels.
+            </summary>
+        </member>
+        <member name="P:PlanktonGh.PMeshFromPoints.ComponentGuid">
+            <summary>
+            Each component must have a unique Guid to identify it. 
+            It is vital this Guid doesn't change otherwise old ghx files 
+            that use the old ID will partially fail during loading.
+            </summary>
+        </member>
+        <member name="T:PlanktonGh.Properties.Resources">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:PlanktonGh.Properties.Resources.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:PlanktonGh.Properties.Resources.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="P:PlanktonGh.Properties.Resources.plankton">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:PlanktonGh.Properties.Resources.plankton_decon">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:PlanktonGh.Properties.Resources.plankton_param">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:PlanktonGh.Properties.Resources.plankton_verts">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="T:PlanktonGh.RhinoSupport">
+            <summary>
+            Provides static and extension methods to add support for Rhino geometry in <see cref="N:Plankton"/>.
+            </summary>
+        </member>
+        <member name="M:PlanktonGh.RhinoSupport.ToPlanktonMesh(Rhino.Geometry.Mesh)">
+            <summary>
+            Creates a Plankton halfedge mesh from a Rhino mesh.
+            Uses the topology of the Rhino mesh directly.
+            </summary>
+            <returns>A <see cref="T:Plankton.PlanktonMesh"/> which represents the topology and geometry of the source mesh.</returns>
+            <param name="source">A Rhino mesh to convert from.</param>
+        </member>
+        <member name="M:PlanktonGh.RhinoSupport.ToRhinoMesh(Plankton.PlanktonMesh)">
+            <summary>
+            Creates a Rhino mesh from a Plankton halfedge mesh.
+            Uses the face-vertex information available in the halfedge data structure.
+            </summary>
+            <returns>A <see cref="T:Rhino.Geometry.Mesh"/> which represents the source mesh (as best it can).</returns>
+            <param name="source">A Plankton mesh to convert from.</param>
+            <remarks>Any faces with five sides or more will be triangulated.</remarks>
+        </member>
+        <member name="M:PlanktonGh.RhinoSupport.ReplaceVertices(Plankton.PlanktonMesh,System.Collections.Generic.List{Rhino.Geometry.Point3d})">
+            <summary>
+            Replaces the vertices of a PlanktonMesh with a new list of points
+            </summary>
+            <returns>A list of closed polylines representing the boundary edges of each face.</returns>
+            <param name="source">A Plankton mesh.</param>
+            <param name="points">A list of points.</param>
+        </member>
+        <member name="M:PlanktonGh.RhinoSupport.ToPolylines(Plankton.PlanktonMesh)">
+            <summary>
+            Converts each face to a closed polyline.
+            </summary>
+            <returns>A list of closed polylines representing the boundary edges of each face.</returns>
+            <param name="source">A Plankton mesh.</param>
+        </member>
+        <member name="M:PlanktonGh.RhinoSupport.ToPoint3f(Plankton.PlanktonVertex)">
+            <summary>
+            Creates a Rhino Point3f from a Plankton vertex.
+            </summary>
+            <param name="vertex">A Plankton vertex</param>
+            <returns>A Point3f with the same coordinates as the vertex.</returns>
+        </member>
+        <member name="M:PlanktonGh.RhinoSupport.ToPoint3d(Plankton.PlanktonVertex)">
+            <summary>
+            Creates a Rhino Point3d from a Plankton vertex.
+            </summary>
+            <param name="vertex">A Plankton vertex</param>
+            <returns>A Point3d with the same coordinates as the vertex.</returns>
+        </member>
+        <member name="M:PlanktonGh.RhinoSupport.ToPoint3f(Plankton.PlanktonXYZ)">
+            <summary>
+            Creates a Rhino Point3f from a Plankton vector.
+            </summary>
+            <param name="vector">A Plankton vector.</param>
+            <returns>A Point3f with the same XYZ components as the vector.</returns>
+        </member>
+        <member name="M:PlanktonGh.RhinoSupport.ToPoint3d(Plankton.PlanktonXYZ)">
+            <summary>
+            Creates a Rhino Point3d from a Plankton vector.
+            </summary>
+            <param name="vector">A Plankton vector.</param>
+            <returns>A Point3d with the same XYZ components as the vector.</returns>
+        </member>
+        <member name="M:PlanktonGh.RhinoSupport.ToVector3f(Plankton.PlanktonXYZ)">
+            <summary>
+            Creates a Rhino Vector3f from a Plankton vector.
+            </summary>
+            <param name="vector">A Plankton vector.</param>
+            <returns>A Vector3f with the same XYZ components as the vector.</returns>
+        </member>
+        <member name="M:PlanktonGh.RhinoSupport.SetVertex(Plankton.PlanktonVertexList,System.Int32,Rhino.Geometry.Point3f)">
+            <summary>
+            <para>Sets or adds a vertex to the Vertex List.</para>
+            <para>If [index] is less than [Count], the existing vertex at [index] will be modified.</para>
+            <para>If [index] equals [Count], a new vertex is appended to the end of the vertex list.</para>
+            <para>If [index] is larger than [Count], the function will return false.</para>
+            </summary>
+            <param name="index">Index of vertex to set.</param>
+            <param name="vertex">Vertex location.</param>
+            <returns><c>true</c> on success, <c>false</c> on failure.</returns>
+        </member>
+        <member name="M:PlanktonGh.RhinoSupport.SetVertex(Plankton.PlanktonVertexList,System.Int32,Rhino.Geometry.Point3d)">
+            <summary>
+            <para>Sets or adds a vertex to the Vertex List.</para>
+            <para>If [index] is less than [Count], the existing vertex at [index] will be modified.</para>
+            <para>If [index] equals [Count], a new vertex is appended to the end of the vertex list.</para>
+            <para>If [index] is larger than [Count], the function will return false.</para>
+            </summary>
+            <param name="index">Index of vertex to set.</param>
+            <param name="vertex">Vertex location.</param>
+            <returns><c>true</c> on success, <c>false</c> on failure.</returns>
+        </member>
+        <member name="M:PlanktonGh.RhinoSupport.MoveVertex(Plankton.PlanktonVertexList,System.Int32,Rhino.Geometry.Vector3d)">
+            <summary>
+            <para>Moves a vertex by a vector.</para>       
+            </summary>
+            <param name="index">Index of vertex to move.</param>
+            <param name="vector">Vector to move by.</param>
+            <returns><c>true</c> on success, <c>false</c> on failure.</returns>
+        </member>
+        <member name="M:PlanktonGh.RhinoSupport.Add(Plankton.PlanktonVertexList,Rhino.Geometry.Point3f)">
+            <summary>
+            Adds a new vertex to the end of the Vertex list.
+            </summary>
+            <param name="vertex">Location of new vertex.</param>
+            <returns>The index of the newly added vertex.</returns>
+        </member>
+        <member name="M:PlanktonGh.RhinoSupport.Add(Plankton.PlanktonVertexList,Rhino.Geometry.Point3d)">
+            <summary>
+            Adds a new vertex to the end of the Vertex list.
+            </summary>
+            <param name="vertex">Location of new vertex.</param>
+            <returns>The index of the newly added vertex.</returns>
+        </member>
+        <member name="M:PlanktonGh.RhinoSupport.GetPositions(Plankton.PlanktonMesh)">
+            <summary>
+            Gets positions of vertices
+            </summary>
+            <returns>A list of Point3d</returns>
+            <param name="source">A Plankton mesh.</param>
+        </member>
+    </members>
+</doc>
